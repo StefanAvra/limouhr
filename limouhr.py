@@ -13,7 +13,7 @@ p = printer.File('/dev/usb/lp0')
 counter = 0
 
 if not os.path.exists(counter_file):
-    with open(counter_file, 'x') as f:
+    with open(counter_file, 'w') as f:
         json.dump(0, f)
 
 

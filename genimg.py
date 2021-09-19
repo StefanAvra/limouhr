@@ -22,4 +22,4 @@ def get_weird_timestamp():
     return image
 
 
-get_weird_timestamp().save(filename)
+# get_weird_timestamp().save(filename)
