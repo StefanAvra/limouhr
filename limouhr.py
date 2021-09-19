@@ -1,14 +1,16 @@
 from random import randint
 from time import localtime, struct_time
-from escpos import printer
+from escpos.printer import File
 from genimg import get_weird_timestamp
 import json
 import os.path
 from gpiozero import Button
 
 button = Button(2)
+
 counter_file = 'counter.json'
-p = printer.File('/dev/usb/lp0')
+
+p = File('/dev/usb/lp0')
 
 counter = 0
 
@@ -19,10 +21,11 @@ if not os.path.exists(counter_file):
 
 def update_counter():
     global counter
-    with open(counter_file, "w+") as f:
+    with open(counter_file, "r") as f:
         counter = json.load(f)
         counter += 1
         print(f'counter is now {counter}')
+    with open(counter_file, "w") as f:
         json.dump(counter, f)
 
 
@@ -104,11 +107,11 @@ def print_poem():
                  QUESTION[poem3_is_question]])
 
     # PRINT POEM
-    p.set(font='b', align='center', custom_size=False)
+    p.set(font='b', align='center')
     p.text('\n\n\n')
     for index, line in enumerate(poem):
         line = [item for item in line if not item == '']
-        p.textln(rreplace(' '.join(line).strip(' ').upper(), ' ', '', 1))
+        p.text(f"{rreplace(' '.join(line).strip(' ').upper(), ' ', '', 1)}\n")
 
     p.text('\n\n\n\n\n')
 
@@ -117,10 +120,10 @@ def print_poem():
 
 def print_footer():
     count_str = f'{counter:04}'
-    p.set(font='b', align='center', custom_size=False)
-    p.textln(
-        f'receipt for the current moment{count_str.rjust(21," ")}'.upper())
-    p.textln(f'literaturmuseum der moderne{"marbach".rjust(24, " ")}'.upper())
+    p.set(font='b', align='center')
+    p.text(
+        f'receipt for the current moment{count_str.rjust(21," ")}\n'.upper())
+    p.text(f'literaturmuseum der moderne{"marbach".rjust(24, " ")}\n'.upper())
 
 
 def print_new_poem():
@@ -132,4 +135,5 @@ def print_new_poem():
 
 while True:
     if button.is_pressed:
+        print('pressed')
         print_new_poem()
