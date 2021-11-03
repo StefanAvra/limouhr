@@ -1,5 +1,5 @@
 from random import randint
-from time import localtime, struct_time
+from time import localtime, struct_time, sleep
 from escpos.printer import File
 from genimg import get_weird_timestamp
 import json
@@ -29,20 +29,20 @@ def update_counter():
         json.dump(counter, f)
 
 
-WAS_IT = ['Was it', 'Wasn\'t it', 'It feels it was',
-          'It smells it was', 'It sounds it was', 'It feels it was']
+WAS_IT = ['Was it', 'Wasn\'t it', 'It feels\nit was',
+          'It smells\nit was', 'It sounds\nit was', 'It feels\nit was']
 HOURS = ['midnight', 'midnight', 'latenight', 'afternight', 'beforemorning', 'earlymorning', 'midmorning', 'midmorning', 'latemorning', 'aftermorning', 'beforenoon', 'earlynoon',
          'midnoon', 'midnoon', 'latenoon', 'afternoon', 'beforeevening', 'earlyevening', 'midevening', 'midevening', 'lateevening', 'afterevening', 'beforenight', 'earlynight']
 ALMOST = ['almost', '']
 LATELY = ['', 'recently', 'lately', 'earlier', 'long ago']
 QUESTION = ['.', '?']
 
-MAYBE = ['maybe', 'possibly', 'perhabs', 'probably',
+MAYBE = ['maybe', 'possibly', 'perhaps', 'probably',
          'presumably', 'assumably', 'supposable']
 WILL_IT_BE = ['Will it be', 'it will be']
 LIKE_AS = ['', 'like', 'as']
 HEREAFTER = ['hereafter', 'later on', 'later',
-             'in a while', ' in a little while', 'shortly', 'soon']
+             'in a while', 'in a little\nwhile', 'shortly', 'soon']
 
 IT_COULD_BE = ['Is it', 'Isn\'t it',
                'Couldn\'t it be', 'It might be', 'It could be']
@@ -107,15 +107,27 @@ def print_poem():
                  QUESTION[poem3_is_question]])
 
     # PRINT POEM
-    p.set(font='b', align='center')
-    p.text('\n\n\n')
-    for index, line in enumerate(poem):
-        line = [item for item in line if not item == '']
-        p.text(f"{rreplace(' '.join(line).strip(' ').upper(), ' ', '', 1)}\n")
+    p.set(font='a', align='center', width=4, height=4)
 
-    p.text('\n\n\n\n\n')
+    p.text('\n')
+    for line in poem:
+        p.set(font='a', align='center', width=3, height=3)
+        print(line)
+        lineStr = ''
+        for item in line:
+            if item != '':
+                if item in '.?':
+                    lineStr += item
+                else:
+                    lineStr += '\n' + item if lineStr != '' else '' + item
+        p.text(lineStr.upper())
+        p.set(font='a', align='center', width=3, height=3)
+        p.text('\n\n\n')
 
-    return poem
+    p.text('\n')
+    p.cut()
+
+    # return poem
 
 
 def print_footer():
@@ -126,14 +138,11 @@ def print_footer():
     p.text(f'literaturmuseum der moderne{"marbach".rjust(24, " ")}\n'.upper())
 
 
-def print_new_poem():
-    print_poem()
-    p.image(get_weird_timestamp())
-    print_footer()
-    p.cut()
-
-
 while True:
-    if button.is_pressed:
-        print('pressed')
-        print_new_poem()
+    print('--- waiting for button press ---')
+    button.wait_for_press()
+    print('button pressed')
+    button.wait_for_release()
+    print('released')
+    print_poem()
+    sleep(10)
