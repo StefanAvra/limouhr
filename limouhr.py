@@ -6,7 +6,7 @@ import json
 import os.path
 from gpiozero import Button
 
-button = Button(2)
+button = Button(26)
 
 counter_file = 'counter.json'
 
