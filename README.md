@@ -23,6 +23,7 @@ This project was developed in context of the exhibition "Punkt Punkt Komma Stric
 
 -   Setup a Raspberry Pi install. If you need to connect a headless setup to wifi you can use `wpa_supplicant.conf` but by now there should be an official, more convenient way for headless setup.
 -   Clone repo to `/home/pi`
+-   Create a venv called `venv` and activate it
 -   Install requirements
 -   Connect a button to GPIO 26
 -   Setup your thermal printer. The script will assume `/dev/usb/lp0` is your printer, change that if necessary.
