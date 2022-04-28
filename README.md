@@ -11,7 +11,7 @@
     estimating
     the present.
 
-Project by Sonja Schwarz
+Project by [Sonja Schwarz](https://www.instagram.com/soennecken/)
 
 Code Stefan Avramescu  
 Product Design IG:@lenn.gerlach  
