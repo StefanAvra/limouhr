@@ -29,6 +29,14 @@ This project was developed in context of the exhibition "Punkt Punkt Komma Stric
 -   Setup your thermal printer. The script will assume `/dev/usb/lp0` is your printer, change that if necessary.
 -   Use `start.sh` in a cron job to start on boot.
 
+
+
+https://user-images.githubusercontent.com/18117169/165856843-511135e4-7010-40a1-b017-a97387726f0c.mp4
+
+
+![photo_back](https://user-images.githubusercontent.com/18117169/165856765-4133200b-526b-49f5-ada6-941876047fd8.jpg)
+
+
 ## FAQ
 
 _Q: Why is this not an installable package?_
